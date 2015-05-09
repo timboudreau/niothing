@@ -100,3 +100,9 @@ Dependencies
 This project has one dependency, `com.mastfrog.util` which can be found in [this maven repo
 here](https://timboudreau.com/builds).  The code used is small, and the library is MIT license,
 so you are free to borrow it if having a dependency disturbs you.
+
+
+License
+-------
+
+MIT license, do what thou wilt.
