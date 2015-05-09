@@ -56,7 +56,8 @@ class MyRegionController implements RegionController<ParsedType> {
 
         @Override
         public void onAllDone() {
-            // Called ONLY when all chunks have been processed and onOneDone() has been called for each result
+            // Called ONLY when all chunks have been processed 
+            // and onOneDone() has been called for each result
         }
 }
 ```
