@@ -51,7 +51,9 @@ class MyRegionController implements RegionController<ParsedType> {
         }
 
         @Override
-        public void onException(Region region, Exception exception, InputStreamProcessor<ParsedType> processorThatFailed) {
+        public void onException(Region region, Exception exception, 
+                InputStreamProcessor<ParsedType> processorThatFailed) {
+
             // Called if MyInputStreamProcessor.process() throws an exception
         }
 
