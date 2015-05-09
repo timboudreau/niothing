@@ -84,15 +84,16 @@ processors.add(new MyInputStreamProcessor());
 processors.add(new MyInputStreamProcessor());
 ```
 
+(If the multiple calls to `processors.add()` seem rather dull to write, you can implement
+`InputStreamProcessorFactory` and pass that in place of the list - it's less verbose).
+
+
 and pass it to `SplitFileProcessor.process()`, which takes care of the gory concurrency bookkeeping details.
 
 ```java
 SplitFileProcessor.process(file, regions, new MyRegionController(), 
     threadPool, processors);
 ```
-
-If the multiple calls to `processors.add()` seem rather dull to write, you can implement
-`InputStreamProcessorFactory` and pass that in place of the list.
 
 Parallelism
 -----------
