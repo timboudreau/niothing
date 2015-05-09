@@ -4,21 +4,21 @@ NioThing (sort of like nothing, but asynchronous)
 The answer to a little challenge presented to me by Jon Locke:  *Say you have a very large file, 
 (say, map data) with well-defined sections you know the offsets of a priori, and you want to 
 parallelize processing those sections, and you need to pass that to foreign code that expects
-`InputStream`s*.
+an `InputStream` for each region*.
 
 This is a little library to make that specific task easy.  It comes in two layers:
 
  * You can just use `SplitFile` and get an `Iterator<InputStream>`
     * Minor caveat - if you call the iterator concurrently, synchronize on it so another thread doesn't
 remove the element you're about to fetch before you can call `next()`
- * You can use SplitFileProcessor.process(), implement a few tiny classes and pass it 
+ * You can use `SplitFileProcessor.process()`, implement a few tiny classes and pass it 
 a file, some regions and a thread pool and let it take care of parallelizing it and feeding
 you results
 
 It memory-maps the total range of bytes you're going to read, and then feeds your code
-`InputStream`s each of which wraps an NIO `MappedByteBuffer` with the bytes from that
-region.  So legacy code is happy, it looks like old-fashioned I/O code, but most of the
-time you'll be reading from the disk cache.
+multiple `InputStream` each of which wraps an NIO `MappedByteBuffer` with the bytes from that
+region, and which can be accessed concurrently.  So legacy code is happy, it looks like 
+old-fashioned I/O code, but most of the time you'll be reading from the disk cache.
 
 See the unit tests for a working example.
 
@@ -74,8 +74,12 @@ processors.add(new MyInputStreamProcessor());
 and pass it to `SplitFileProcessor.process()`, which takes care of the gory concurrency bookkeeping details.
 
 ```java
-SplitFileProcessor.process(file, regions, new MyRegionController(), threadPool, processors);
+SplitFileProcessor.process(file, regions, new MyRegionController(), 
+    threadPool, processors);
 ```
+
+If the multiple calls to `processors.add()` seem rather dull to write, you can implement
+`InputStreamProcessorFactory` and pass that in place of the list.
 
 Parallelism
 -----------
@@ -91,7 +95,9 @@ Caveats
 Does not currently support the total number of bytes being larger than
  (i.e. `range[last].end - range[0].start` must be less than
 `Integer.MAX_VALUE`).  It's easy to support larger files with a small code change,
-but you lose the performance advantage of setting up the mapping only once.
+but you lose the performance advantage of setting up the mapping only once, since
+you'd need to map individual regions (or write a mini-memory manager to manage
+multiple buffers that map multiple regions - doable but not fun).
 
 
 Dependencies
