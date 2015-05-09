@@ -38,7 +38,8 @@ class MyInputStreamProcessor implements InputStreamProcessor<ParsedType> {
         Region region = in.region(); // in case you're interested in
                                      // where in the file you are
 
-        return // parse the region here and return an object representing what you read
+        return // parse the region here and return an 
+               // object representing what you read
     }
 }
 
