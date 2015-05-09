@@ -1,5 +1,5 @@
-NioThing (sort of like nothing, but asynchronous)
-=================================================
+NioThing
+========
 
 The answer to a little challenge presented to me by Jon Locke:  *Say you have a very large file, 
 (say, map data) with well-defined sections you know the offsets of a priori, and you want to 
