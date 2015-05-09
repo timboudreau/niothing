@@ -16,9 +16,15 @@ a file, some regions and a thread pool and let it take care of parallelizing it 
 you results
 
 It memory-maps the total range of bytes you're going to read, and then feeds your code
-multiple `InputStream` each of which wraps an NIO `MappedByteBuffer` with the bytes from that
+multiple `InputStream` instances each of which wraps an NIO `MappedByteBuffer` with the bytes from that
 region, and which can be accessed concurrently.  So legacy code is happy, it looks like 
 old-fashioned I/O code, but most of the time you'll be reading from the disk cache.
+
+It attempts to guarantee the following:
+
+ * The file will only be opened once (modulo anything you do ahead of time to figure out the region offsets)
+ * Processing of regions happens concurrently, with blocking only for claiming the next region
+ * You get notified when all regions have been processed
 
 See the unit tests for a working example.
 
