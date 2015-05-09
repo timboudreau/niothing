@@ -102,6 +102,8 @@ the number of processors and the size of the thread pool, whichever is smaller. 
 code does its own blocking I/O, it may make sense to use more threads than you have cores, since
 those threads will spend much of their time sleeping waiting for the OS to complete some I/O.
 
+Each `InputStreamProcessor` instance is tied to a thread, and does not need to be thread-safe.
+
 Caveats
 -------
 
