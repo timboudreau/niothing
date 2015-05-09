@@ -34,8 +34,11 @@ Basically:
 
 class MyInputStreamProcessor implements InputStreamProcessor<ParsedType> {
 
-    public ParsedType process (InputStream in) throws IOException {
-        return // parse the file here and return an object representing what you read
+    public ParsedType process (RegionInputStream in) throws IOException {
+        Region region = in.region(); // in case you're interested in
+                                     // where in the file you are
+
+        return // parse the region here and return an object representing what you read
     }
 }
 
