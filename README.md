@@ -64,7 +64,7 @@ class MyRegionController implements RegionController<ParsedType> {
 Then you make a list of `Regions` - which is just a start and end byte offset, e.g.
 
 ```java
-List<Region> regions = new ArrayList<Region>();
+List<Region> regions = new ArrayList<>();
 regions.add(new Region(200, 300));
 // ...etc
 ```
